@@ -1,0 +1,54 @@
+package CodSoft;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class WordCounterApp {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> createAndShowGUI());
+    }
+
+    private static void createAndShowGUI() {
+        JFrame frame = new JFrame("Word Counter");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(300, 200)); // Set preferred dimensions
+
+        JTextArea textArea = new JTextArea(5, 20);
+        JButton countButton = new JButton("Count");
+
+        JLabel wordCountLabel = new JLabel("Word Count: 0");
+        JLabel charCountLabel = new JLabel("Character Count: 0");
+
+        countButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String inputText = textArea.getText();
+                int wordCount = countWords(inputText);
+                int charCount = inputText.length();
+
+                wordCountLabel.setText("Word Count: " + wordCount);
+                charCountLabel.setText("Character Count: " + charCount);
+            }
+        });
+
+        mainPanel.add(new JScrollPane(textArea), BorderLayout.CENTER);
+        mainPanel.add(countButton, BorderLayout.SOUTH);
+        mainPanel.add(wordCountLabel, BorderLayout.WEST);
+        mainPanel.add(charCountLabel, BorderLayout.EAST);
+
+        frame.getContentPane().add(mainPanel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    private static int countWords(String text) {
+        String[] words = text.split("\\s+");
+        return words.length;
+    }
+}
